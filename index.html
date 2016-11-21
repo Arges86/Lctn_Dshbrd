@@ -1,0 +1,220 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Location Dashboard</title>
+	<link rel="icon" href="https://arges86.homeserver.com/icons/Location%20Program.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=css&skin=desert"></script>
+	<script src="https://arges86.homeserver.com/how_to/js/scrl_to_top.js"></script>
+	<script src="https://arges86.homeserver.com/how_to/js/jquery.mobile.touch.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js"></script>
+	<!--<link rel="stylesheet" href="https://arges86.homeserver.com/how_to/css/background_no_img.css"> -->
+	<link rel="stylesheet" href="https://arges86.homeserver.com/how_to/css/header.css">
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	<link rel="stylesheet" href="https://arges86.homeserver.com/how_to/css/style.css">
+	<link rel="stylesheet" href="https://arges86.homeserver.com/how_to/css/dashboard.css">
+	<!-- Analytics -->
+	<script>
+		(function(i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+		ga('create', 'UA-75796062-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- Form background -->
+	<style class="cp-pen-styles">
+		#zip_submit {
+			background: rgba(221, 230, 255, 0.8);
+			;
+			border-radius: 15px;
+		}
+		
+		body {
+			background-color: #000000;
+			background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZlcnNpb249JzEuMScgd2lkdGg9JzQwMCcgaGVpZ2h0PSc0MDAnPgoJPGRlZnMgaWQ9J2RlZnM0Jz4KCQk8ZmlsdGVyIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0nc1JHQicgaWQ9J2ZpbHRlcjMxMTUnPgoJCQk8ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgbnVtT2N0YXZlcz0nMScgYmFzZUZyZXF1ZW5jeT0nMC45JyBpZD0nZmVUdXJidWxlbmNlMzExNycgLz4KCQkJPGZlQ29sb3JNYXRyaXggcmVzdWx0PSdyZXN1bHQ1JyB2YWx1ZXM9JzEgMCAwIDAgMCAwIDEgMCAwIDAgMCAwIDEgMCAwIDAgMCAwIDYgLTMuNTUwMDAwMDAwMDAwMDAwMyAnIGlkPSdmZUNvbG9yTWF0cml4MzExOScgLz4KCQkJPGZlQ29tcG9zaXRlIGluMj0ncmVzdWx0NScgb3BlcmF0b3I9J2luJyBpbj0nU291cmNlR3JhcGhpYycgcmVzdWx0PSdyZXN1bHQ2JyBpZD0nZmVDb21wb3NpdGUzMTIxJyAvPgoJCQk8ZmVNb3JwaG9sb2d5IGluPSdyZXN1bHQ2JyBvcGVyYXRvcj0nZGlsYXRlJyByYWRpdXM9JzQnIHJlc3VsdD0ncmVzdWx0MycgaWQ9J2ZlTW9ycGhvbG9neTMxMjMnIC8+CgkJPC9maWx0ZXI+Cgk8L2RlZnM+Cgk8cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyB4PScwJyB5PScwJyBpZD0ncmVjdDI5ODUnIGZpbGw9JyMwMDAwMDAnLz4gICAgIAoJPHJlY3Qgd2lkdGg9JzEwMCUnIGhlaWdodD0nMTAwJScgeD0nMCcgeT0nMCcgaWQ9J3JlY3QyOTg1JyBzdHlsZT0nZmlsbDojMDAwZDNjO2ZpbHRlcjp1cmwoI2ZpbHRlcjMxMTUpJyAvPgo8L3N2Zz4=);
+		}
+		
+		#browser_location {
+			color: #FF6600;
+			font-size: 1.5em;
+		}
+		/* Sets the div boxes (box1) to the same height */
+		
+		@media only screen and (max-width: 767px) {
+			.box {
+				height: auto !important;
+			}
+		}
+		#mybutton4 {
+			display: table;
+			margin: 0 auto;
+			}
+	</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-2" id="zip_submit">
+				<div class="box1">
+					<!-- Form is Here -->
+					<div id="form-content">
+						<form method="post" id="reg-form" autocomplete="off">
+							<div class="form-group">
+								<input maxlength="5" id="zipcode" type="text" autocomplete="off" class="form-control" name="txt_zip" placeholder="Enter Your Zip Code Here" required />
+							</div>
+							<script type='text/javascript'>
+								// Prevents alpha chracters in zip seach field
+								jQuery('#zipcode').keyup(function() {
+									if (this.value != this.value.replace(/[^0-9]/g, '')) {
+										this.value = this.value.replace(/[^0-9]/g, '');
+									}
+								});
+								jQuery('#zipcode').on('paste', function() {
+									if (this.value != this.value.replace(/[^0-9]/g, '')) {
+										this.value = this.value.replace(/[^0-9]/g, '');
+									}
+								});
+							</script>
+							<div class="form-group">
+								<button class="btn btn-primary" id="mybutton"><span class="glyphicon glyphicon-search"></span> Submit</button>
+								<button class="btn btn-success" id="mybutton2" style="display:none;"><span class="glyphicon glyphicon-search"></span> Submit</button>
+								<button class="btn btn-danger" id="mybutton3" style="display:none;"><span class="glyphicon glyphicon-search"></span> Submit</button>
+								<button class="btn btn-info" id="mybutton4" style="display:none;"><span class="glyphicon glyphicon-search"></span> Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="box1">
+					<div id="title">
+						<!-- Title -->
+						Location Dashboard:
+					</div>
+					<div id="loader-wrapper">
+						<!-- Borrowed from https://ihatetomatoes.net/demos/css3-preloader/ -->
+						<div id="loader"></div>
+					</div>
+					<button class="btn btn-info btn pull-right" id="browser_location">
+						<span class="glyphicon glyphicon-map-marker" data-toggle="tooltip" title="Try from browser's location. More accurate than your ISP" align="right">GPS Location</span>
+					</button>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="box1">
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<!-- End of form -->
+	<div class="container-fluid">
+		<div class="alert alert-danger" id="failure" style="display:none;"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong>Failure!</strong>I'm sorry, somethign went wrong. Please try again.
+		</div>
+		<div class="col-md-12" style="display:none;">
+			<div id="initial"></div>
+			<div id="response"></div>
+			<span id="location"></span>
+		</div>
+	</div>
+	<script>
+		$(document).ajaxStart(function() {
+			$('#loader-wrapper').show();
+			//$(".col-md-12").hide();
+		}).ajaxStop(function() {
+			$('#loader-wrapper').hide();
+			$(".col-md-12").show(); //shows container after content has loaded (prevents stupid line from persisting on top of div box)
+		});
+		$("#initial").load("PHP/auto.php"); //Auto populated information
+		$('#reg-form').submit(function(e) {
+			e.preventDefault(); // Prevent Default Submission
+			$.ajax({
+					url: 'PHP/submit.php',
+					type: 'POST',
+					data: $(this).serialize(), // it will serialize the form data
+					dataType: 'html'
+				})
+				.done(function(data) {
+					$('#initial').fadeOut('slow', function() { // hides initial response, from ISP
+						$('#response').fadeIn('slow').html(data); // Shows response from form submission
+						$('#mybutton').hide(); // hides default submit button
+						$('#mybutton3').hide(); //hides failure submit button
+						$('#mybutton4').hide(); //hides GPS submit button
+						$('#mybutton2').show(); // shows success submit button
+						$('#failure').hide(); //hides failure warning
+						//$('#browser_location').hide(); // Hides browser location button
+						$('#location').hide(); // hides browser location box
+					});
+				})
+				.fail(function() {
+					$('#failure').show();
+					$('#loader-wrapper').hide(); //Hides loading icon
+					$('#location').hide(); // hides browser location box
+					$('#mybutton').hide(); // hides default submit button
+					$('#mybutton2').hide(); // hides success submit button
+					$('#mybutton3').show(); // shows faiure submit button
+					$('#mybutton4').hide(); //hides GPS submit button
+				});
+		});
+	</script>
+	<script>
+		//Browser Location button
+		$(document).ready(function() {
+			$("#browser_location").click(function() {
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(showLocation);
+				} else {
+					$('#location').html('Geolocation is not supported by this browser.');
+				}
+
+				function showLocation(position) {
+					var latitude = position.coords.latitude;
+					var longitude = position.coords.longitude;
+					$.ajax({
+						type: 'POST',
+						url: 'PHP/getLocation.php',
+						data: 'latitude=' + latitude + '&longitude=' + longitude,
+						success: function(msg) {
+							if (msg) {
+								$("#location").html(msg);
+							} else {
+								$("#location").html('Not Available');
+							}
+						}
+					});
+				}
+				$('#location').show();
+				$('#response').hide();
+				$('#initial').hide();
+				$('#failure').hide();
+					$('#mybutton').hide(); // hides default submit button
+					$('#mybutton2').hide(); // hides success submit button
+					$('#mybutton3').hide(); // hides faiure submit button
+					$('#mybutton4').show(); //shows GPS submit button
+			});
+		});
+	</script>
+	<script>
+		$('.box1').matchHeight();
+		//# sourceURL=pen.js
+	</script>
+</body>
+</html>
