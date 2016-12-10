@@ -124,6 +124,34 @@ if( $_POST ){
 						<div class="tab-content">
 							<div class="tab-pane active" id="panel-manualweather">
 								<small><small>Weather provided by openweathermap.org<br></small></small>
+<!-- Begin Fahrenhiet & Celsius buttons -->
+<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box1">
+					<!-- Form is Here -->
+					<div id="form-content">
+						<form method="post" id="far-formSubmit" autocomplete="off">
+							<div class="form-group">
+								<button class="btn btn-primary" name="" id="mybutton5"><input type="hidden" name="degrees" value="<?php echo  $zip_code ?>,imperial") ><span class="glyphicon glyphicon-search"></span>&#8457;</button>               
+						</form>
+						<form method="post" id="cel-formSubmit" autocomplete="off">
+                <button class="btn btn-primary" name="degrees" id="mybutton5"><input type="hidden" name="degrees" value="<?php echo  $zip_code ?>,metric"><span class="glyphicon glyphicon-search"></span>&#x2103;</button>
+              </form>
+              </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End of form -->
+	<div class="container-fluid">
+		<div class="alert alert-danger" id="failure" style="display:none;"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong>Failure!</strong>I'm sorry, something went wrong. Please try again.
+		</div>
+		<div class="col-md-12" style="display:none;">
+			<div id="initialSubmit">
+<!-- End Fahrenhiet & Celsius buttons -->
 <?php
 	//Weather Service call
 		$api = "84f4fc1bd9c9d1148d0262755bb6c7d2";
@@ -167,6 +195,49 @@ if( $_POST ){
 			$dt = new DateTime("@$epoch");  // convert UNIX timestamp to PHP DateTime
 			echo "<small>Weather as of ".$dt->format('Y/M/d H:i:s')."</small>"; // output = 2012/08/15 00:00:00 
 ?>
+							</div>
+			<div id="FahrenheitSubmit"></div>
+			<span id="CelsiusSubmit"></span>
+		</div>
+	</div>
+	<script>
+		$('#far-formSubmit').submit(function(e) {
+			e.preventDefault(); // Prevent Default Submission
+			$.ajax({
+					url: 'PHP/weather.php',
+					type: 'POST',
+					data: $(this).serialize(), // it will serialize the form data
+					dataType: 'html'
+				})
+				.done(function(data) {
+					$('#initialSubmit').fadeOut('slow', function() { // hides initial response, from ISP
+						$('#FahrenheitSubmit').fadeIn('slow').html(data); // Shows response from form submission
+            $('#CelsiusSubmit').hide();
+					});
+				})
+				.fail(function() {
+					$('#failure').show();
+				});
+		});    
+    $('#cel-formSubmit').submit(function(e) {
+			e.preventDefault(); // Prevent Default Submission
+			$.ajax({
+					url: 'PHP/weather.php',
+					type: 'POST',
+					data: $(this).serialize(), // it will serialize the form data
+					dataType: 'html'
+				})
+				.done(function(data) {
+					$('#initialSubmit').fadeOut('slow', function() { // hides initial response, from ISP
+						$('#CelsiusSubmit').fadeIn('slow').html(data); // Shows response from form submission
+            $('#FahrenheitSubmit').hide();
+					});
+				})
+				.fail(function() {
+					$('#failure').show();
+				});
+		});
+	</script>
 							</div>
 							<div class="tab-pane" id="panel-manualpizza">
 								<small><small>Pizza Restaurants & Reviews by Yellow Pages<br></small></small>
