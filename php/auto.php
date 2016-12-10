@@ -138,9 +138,34 @@ $ipinfoarray = json_decode($ipinfojson,true);
 						<div class="tab-content">
 							<div class="tab-pane active" id="panel-894211">
 								<small><small>Weather provided by openweathermap.org<br></small></small>
-<?php
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box1">
+					<!-- Form is Here -->
+					<div id="form-content">
+						<form method="post" id="far-form" autocomplete="off">
+							<div class="form-group">
+								<button class="btn btn-primary" name="" id="mybutton5"><input type="hidden" name="degrees" value="<?php echo  $zip_code ?>,imperial") ><span class="glyphicon glyphicon-search"></span>&#8457;</button>               
+						</form>
+						<form method="post" id="cel-form" autocomplete="off">
+                <button class="btn btn-primary" name="degrees" id="mybutton5"><input type="hidden" name="degrees" value="<?php echo  $zip_code ?>,metric"><span class="glyphicon glyphicon-search"></span>&#x2103;</button>
+              </form>
+              </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End of form -->
+	<div class="container-fluid">
+		<div class="alert alert-danger" id="failure" style="display:none;"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong>Failure!</strong>I'm sorry, something went wrong. Please try again.
+		</div>
+		<div class="col-md-12" style="display:none;">
+			<div id="initialF">
+			<?php
 //Auto Weather Module
-	//$zip_code = file_get_contents("http://ipinfo.io/{$_SERVER['REMOTE_ADDR']}/postal");
   $zip = trim($zip_code);
 		if ($zip == "undefined") { //If zip code is undefined, skips this section
 			echo "Failed to find your zip code. <br> I'm Sorry, you are going to have to enter it manually.<br>";
@@ -188,6 +213,49 @@ $ipinfoarray = json_decode($ipinfojson,true);
 			echo "<small>Weather as of ".$dt->format('Y/M/d H:i:s')."</small>"; // output = 2012/08/15 00:00:00 
   }
 ?>
+			</div>
+			<div id="Fahrenheit"></div>
+			<span id="Celsius"></span>
+		</div>
+	</div>
+	<script>
+		$('#far-form').submit(function(e) {
+			e.preventDefault(); // Prevent Default Submission
+			$.ajax({
+					url: 'PHP/weather.php',
+					type: 'POST',
+					data: $(this).serialize(), // it will serialize the form data
+					dataType: 'html'
+				})
+				.done(function(data) {
+					$('#initialF').fadeOut('slow', function() { // hides initial response, from ISP
+						$('#Fahrenheit').fadeIn('slow').html(data); // Shows response from form submission
+            $('#Celsius').hide();
+					});
+				})
+				.fail(function() {
+					$('#failure').show();
+				});
+		});    
+    $('#cel-form').submit(function(e) {
+			e.preventDefault(); // Prevent Default Submission
+			$.ajax({
+					url: 'PHP/weather.php',
+					type: 'POST',
+					data: $(this).serialize(), // it will serialize the form data
+					dataType: 'html'
+				})
+				.done(function(data) {
+					$('#initialF').fadeOut('slow', function() { // hides initial response, from ISP
+						$('#Celsius').fadeIn('slow').html(data); // Shows response from form submission
+            $('#Fahrenheit').hide();
+					});
+				})
+				.fail(function() {
+					$('#failure').show();
+				});
+		});
+	</script>
 							</div>
 							<div class="tab-pane" id="panel-663917">
 								<small><small>Pizza Restaurants & Reviews by Yellow Pages<br></small></small>
