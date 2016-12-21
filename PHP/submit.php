@@ -8,6 +8,7 @@ function debug_to_console( $data ) {
 	}
 if( $_POST ){	
     $zip_code = $_POST['txt_zip'];
+    $zip_code = strip_tags($zip_code);
 	}
     ?>
 <?php
