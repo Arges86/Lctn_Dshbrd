@@ -64,10 +64,8 @@ if(!empty($_POST['latitude']) && !empty($_POST['longitude'])){
 $id_type = "getLocation"; //variable to set div ID so the different modules don't overlap
 include 'modules/Carousel.php'; 
 ?>
-		<div class="row2">
-			<div class="col-md-1">
-			</div>
-			<div class="col-md-5">
+<!-- 		<div class="row2"> -->
+			<div class="col-md-7">
 				<div class="tabbable" id="tabs-506087">
 					<ul class="nav nav-tabs">
 						<li class="active">

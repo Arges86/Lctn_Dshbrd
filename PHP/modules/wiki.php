@@ -6,7 +6,7 @@ $wiki = json_decode($wiki_response,true);
 	$name1 = $wiki['geonames'][0];
 	if (isset($name1)) {
 		$wikilength = (count($wiki['geonames']))-1;
-		debug_to_console("Number of wiki entries: ".$wikilength);
+		debug_to_console("Number of wiki entries: ".($wikilength+1));
 		for ($w = 0; $w <= $wikilength; $w++) {
 			$wiki_url = $wiki['geonames'][$w]['wikipediaUrl'];
 			echo "<ul><b><a href=http://".$wiki_url." target='_blank'>".$wiki['geonames'][$w]['title']."</a></b></ul>";

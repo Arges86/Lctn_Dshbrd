@@ -8,7 +8,6 @@ function debug_to_console( $data ) {
 	}
 if( $_POST ){	
     $zip_code = $_POST['txt_zip'];
-    $zip_code = strip_tags($zip_code);
 	}
     ?>
 <?php
@@ -59,9 +58,7 @@ $id_type = "submit"; //variable to set div ID so the different modules don't ove
 include 'modules/Carousel.php'; 
 ?>
 <!-- 			<div class="row2"> -->
-				<div class="col-md-1">
-				</div>
-				<div class="col-md-5">
+				<div class="col-md-7">
 					<div class="tabbable" id="tabs-506087">
 						<ul class="nav nav-tabs">
 							<li class="active">
@@ -75,6 +72,9 @@ include 'modules/Carousel.php';
 							</li>
 							<li>
 								<a href="#panel-manualwiki" data-toggle="tab">Wikipedia</a>
+							</li>
+							<li>
+								<a href="#panel-manualzip" data-toggle="tab">Zip Codes</a>
 							</li>
 						</ul>
 						<div class="tab-content">
@@ -173,6 +173,22 @@ include 'modules/Carousel.php';
 						<small><small>Wikipedia by geonames.org<br></small></small>
  <?php
 	include 'modules/wiki.php';
+?>
+					</div>
+					<div class="tab-pane" id="panel-manualzip">
+						<small><small>Chart of top ten searched zipcodes<br></small></small>
+ <?php // Logs zipcode in MySQL database
+	if(!file_exists("mysql/inputMySQL.php")) {
+  	debug_to_console("MySQL File not found");
+		} else {
+			$file=include("mysql/inputMySQL.php");
+			}
+						
+	if(!file_exists("mysql/chart.php")) {
+  	debug_to_console("MySQL chart not found");
+		} else {
+			$file=include("mysql/chart.php");
+			}
 	debug_to_console("End of Submit Logs");
 ?>
 					</div>

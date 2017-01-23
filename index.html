@@ -12,6 +12,7 @@
 	<script src="https://arges86.homeserver.com/how_to/js/scrl_to_top.js"></script>
 	<script src="https://arges86.homeserver.com/how_to/js/jquery.mobile.touch.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js"></script>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://arges86.homeserver.com/how_to/css/header.css">
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -39,9 +40,14 @@
 		ga('send', 'pageview');
 	</script>
 	<!-- Form background -->
-	<style class="cp-pen-styles">
-
-	</style>
+  <style>
+    .glyphicon-ok {
+        color: green;
+    }
+    .glyphicon-remove{
+        color: red;
+    }
+  </style>
 </head>
 <body>
 	<div class="container-fluid">
@@ -50,7 +56,7 @@
 				<div class="box1">
 					<!-- Form is Here -->
 					<div id="form-content">
-						<form method="post" id="reg-form" autocomplete="off">
+						<form method="post" id="reg-form" class="enable-enter" autocomplete="off">
 							<div class="form-group">
 								<input maxlength="5" id="zipcode" type="text" autocomplete="off" class="form-control" name="txt_zip" placeholder="Enter Your Zip Code Here" required />
 							</div>
@@ -67,7 +73,7 @@
 									}
 								});
 							</script>
-							<div class="form-group">
+							<div class="form-group-b">
 								<button class="btn btn-primary" id="mybutton"><span class="glyphicon glyphicon-search"></span> Submit</button>
 								<button class="btn btn-success" id="mybutton2" style="display:none;"><span class="glyphicon glyphicon-search"></span> Submit</button>
 								<button class="btn btn-danger" id="mybutton3" style="display:none;"><span class="glyphicon glyphicon-search"></span> Submit</button>
@@ -78,6 +84,7 @@
 				</div>
 			</div>
 			<div class="col-md-8">
+				<span class="col-md-2" id="user-result"></span> <!--Zip Code Checking -->
 				<div class="box1">
 					<div id="title">
 						<!-- Title -->
@@ -137,6 +144,7 @@
 						$('#failure').hide(); //hides failure warning
 						//$('#browser_location').hide(); // Hides browser location button
 						$('#location').hide(); // hides browser location box
+						$('#user-result').hide(); //hides zip_code check
 					});
 				})
 				.fail(function() {
@@ -147,6 +155,7 @@
 					$('#mybutton2').hide(); // hides success submit button
 					$('#mybutton3').show(); // shows faiure submit button
 					$('#mybutton4').hide(); //hides GPS submit button
+					$('#user-result').hide(); //hides zip_code check
 				});
 		});
 	</script>
@@ -183,6 +192,7 @@
 					$('#mybutton2').hide(); // hides success submit button
 					$('#mybutton3').hide(); // hides faiure submit button
 					$('#mybutton4').show(); //shows GPS submit button
+					$('#user-result').hide(); //hides zip_code check
 			});
 		});
 	</script>
@@ -190,5 +200,34 @@
 		$('.box1').matchHeight();
 		//# sourceURL=pen.js
 	</script>
+	<script type="text/javascript">//checks if zip code exists. Throws warning if its missing. 
+  $(document).ready(function() {
+    var x_timer;
+    $("#zipcode").keyup(function(e) {
+      clearTimeout(x_timer);
+      var zip_code = $(this).val();
+      x_timer = setTimeout(function() {
+        check_zipcode_ajax(zip_code);
+      }, 1000);
+    });
+
+    function check_zipcode_ajax(zipcode) {
+      $("#user-result").html('<img src="/images/ajax-loader.gif" />');
+      $.post('PHP/zip-checker.php', {
+        'zipcode': zipcode
+      }, function(data) {
+        $("#user-result").html(data);
+				$('#user-result').show(); //shows zip_code check
+      });
+    }
+  });
+		
+	$('.disable-enter').keypress( //If zipcode doesn't exist, unable to press enter
+    function(event){
+     if (event.which == '13') {
+        event.preventDefault();
+      }
+});
+</script>
 </body>
 </html>
