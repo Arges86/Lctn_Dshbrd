@@ -97,7 +97,7 @@
 				<span class="col-md-2" id="user-result"></span> <!--Zip Code Checking -->
 				<span class="col-md-2" id="random_zip">
 					<br> Insert a random zipcode if you don't know yours.</br>
-					<button  type="button" id="ZipRand" class="btn btn-block"><span class="glyphicon glyphicon-random"></span></button> <!--Random zipcode checker-->
+					<button  type="button" id="ZipRand" class="btn btn-default"><span class="glyphicon glyphicon-random"></span></button> <!--Random zipcode checker-->
 				</span> <!--Zip Code Checking -->
 				<div class="box1">
 					<div id="title">
@@ -251,10 +251,10 @@
 	$(document).ready(function() {
 		$("#ZipRand").click(function() {
 			jQuery.when(getRandomZip()).done(function(randomZipSuccessMessage) {
-				$('input[name="txt_zip"]').val(randomZipSuccessMessage['zipcode']); //inserts zipcode into form
+				$('input[name="txt_zip"]').val(randomZipSuccessMessage['zip']); //inserts zipcode into form
 				$("#zipresponse").empty(); //deletes previous entry from div
 				$("#zipresponse").show(); //shows it, other buttons hide this id
-				$('#zipresponse').append(randomZipSuccessMessage['city']+", "+randomZipSuccessMessage['state']); //inserts city & state name right below it
+				$('#zipresponse').append(randomZipSuccessMessage['primary_city']+", "+randomZipSuccessMessage['state']); //inserts city & state name right below it
 			}).fail(function() {
 				$('#failure').show();
 			});
