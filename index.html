@@ -40,14 +40,23 @@
 		ga('send', 'pageview');
 	</script>
 	<!-- Form background -->
-  <style>
-    .glyphicon-ok {
-        color: green;
-    }
-    .glyphicon-remove{
-        color: red;
-    }
-  </style>
+<style>
+	.glyphicon-ok {
+		color: green;
+	}	
+	.glyphicon-remove {
+		color: red;
+	}	
+	#zipresponse {
+		position: fixed;
+		z-index: 1;
+		color: black;
+	}	
+	.form-group-b {
+		z-index: 2;
+		align-content: right;
+	}
+</style>
 </head>
 <body>
 	<div class="container-fluid">
@@ -59,6 +68,7 @@
 						<form method="post" id="reg-form" class="enable-enter" autocomplete="off">
 							<div class="form-group">
 								<input maxlength="5" id="zipcode" type="text" autocomplete="off" class="form-control" name="txt_zip" placeholder="Enter Your Zip Code Here" required />
+								<small><div id="zipresponse"></div></small> <!--Displays random zipcode's city, state-->
 							</div>
 							<script type='text/javascript'>
 								// Prevents alpha chracters in zip seach field
@@ -77,7 +87,7 @@
 								<button class="btn btn-primary" id="mybutton"><span class="glyphicon glyphicon-search"></span> Submit</button>
 								<button class="btn btn-success" id="mybutton2" style="display:none;"><span class="glyphicon glyphicon-search"></span> Submit</button>
 								<button class="btn btn-danger" id="mybutton3" style="display:none;"><span class="glyphicon glyphicon-search"></span> Submit</button>
-								<button class="btn btn-info" id="mybutton4" style="display:none;"><span class="glyphicon glyphicon-search"></span> Submit</button>
+								<button class="btn btn-info" id="mybutton4" style="display:none;"><span class="glyphicon glyphicon-search"></span> Submit</button>									
 							</div>
 						</form>
 					</div>
@@ -85,6 +95,10 @@
 			</div>
 			<div class="col-md-8">
 				<span class="col-md-2" id="user-result"></span> <!--Zip Code Checking -->
+				<span class="col-md-2" id="random_zip">
+					<br> Insert a random zipcode if you don't know yours.</br>
+					<button  type="button" id="ZipRand" class="btn btn-block"><span class="glyphicon glyphicon-random"></span></button> <!--Random zipcode checker-->
+				</span> <!--Zip Code Checking -->
 				<div class="box1">
 					<div id="title">
 						<!-- Title -->
@@ -144,7 +158,8 @@
 						$('#failure').hide(); //hides failure warning
 						//$('#browser_location').hide(); // Hides browser location button
 						$('#location').hide(); // hides browser location box
-						$('#user-result').hide(); //hides zip_code check
+						$('#user-result').empty(); //hides zip_code check
+						$("#zipresponse").hide(); //hides random zipcodes' city, state
 					});
 				})
 				.fail(function() {
@@ -155,7 +170,8 @@
 					$('#mybutton2').hide(); // hides success submit button
 					$('#mybutton3').show(); // shows faiure submit button
 					$('#mybutton4').hide(); //hides GPS submit button
-					$('#user-result').hide(); //hides zip_code check
+					$('#user-result').empty(); //hides zip_code check
+					$("#zipresponse").hide(); //hides random zipcodes' city, state
 				});
 		});
 	</script>
@@ -192,7 +208,9 @@
 					$('#mybutton2').hide(); // hides success submit button
 					$('#mybutton3').hide(); // hides faiure submit button
 					$('#mybutton4').show(); //shows GPS submit button
-					$('#user-result').hide(); //hides zip_code check
+					$('#user-result').empty(); //hides zip_code check
+					$("form").trigger('reset'); //deletes values in input form
+					$("#zipresponse").hide(); //hides random zipcodes' city, state
 			});
 		});
 	</script>
@@ -228,6 +246,33 @@
         event.preventDefault();
       }
 });
+</script>
+<script>//Random ZipCode Button	
+	$(document).ready(function() {
+		$("#ZipRand").click(function() {
+			jQuery.when(getRandomZip()).done(function(randomZipSuccessMessage) {
+				$('input[name="txt_zip"]').val(randomZipSuccessMessage['zipcode']); //inserts zipcode into form
+				$("#zipresponse").empty(); //deletes previous entry from div
+				$("#zipresponse").show(); //shows it, other buttons hide this id
+				$('#zipresponse').append(randomZipSuccessMessage['city']+", "+randomZipSuccessMessage['state']); //inserts city & state name right below it
+			}).fail(function() {
+				$('#failure').show();
+			});
+		});
+	});
+	function getRandomZip() {
+		return jQuery.ajax({
+			dataType: "json",
+			type: "GET",
+			url: "PHP/mysql/ZipCodeRand.php",
+			data: null,
+			error: function(data, textStatus, errorThrown) {
+				console.log("Error... " + data);
+				console.log(textStatus);
+				console.log(errorThrown);
+			}
+		});
+	};
 </script>
 </body>
 </html>
