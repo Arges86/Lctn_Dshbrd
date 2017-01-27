@@ -239,3 +239,18 @@
 		#mybutton5 {
 			float: left;
 			}
+	.glyphicon-ok {
+		color: green;
+	}	
+	.glyphicon-remove {
+		color: red;
+	}	
+	#zipresponse {
+		position: fixed;
+		z-index: 1;
+		color: black;
+	}	
+	.form-group-b {
+		z-index: 2;
+		align-content: right;
+	}
